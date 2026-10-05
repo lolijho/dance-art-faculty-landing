@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Admin testi · Open Day Liceo Coreutico DAF</title>
+  <link rel="icon" type="image/png" href="/img/web/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="/admin">Liceo Coreutico DAF <span>· Admin testi</span></a>
+      <div class="topbar__actions">
+        <a class="ghost" href="/" target="_blank" rel="noopener">Vedi landing ↗</a>
+        <button id="logout" class="ghost" type="button" hidden>Esci</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="login" class="card card--login" hidden>
+      <h1>Area admin</h1>
+      <p class="sub">Accedi per modificare i testi della landing Open Day.</p>
+      <form id="login-form" autocomplete="on">
+        <label for="password">Password admin</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required />
+        <p id="login-err" class="err" hidden></p>
+        <button class="btn btn--red" type="submit">Accedi</button>
+      </form>
+    </section>
+
+    <section id="editor" hidden>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+      <div id="sections"></div>
+    </section>
+  </main>
+
+  <div id="savebar" class="savebar" hidden>
+    <span id="savebar-msg">Modifiche non salvate</span>
+    <button id="save" class="btn btn--red" type="button">Salva modifiche</button>
+  </div>
+  <div id="toast" class="toast" hidden aria-live="polite"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

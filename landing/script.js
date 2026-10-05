@@ -11,6 +11,51 @@
     document.documentElement.classList.add("static");
   }
 
+  /* ---------- Testi editabili dal backend (fallback: HTML statico) ---------- */
+  function applyContent() {
+    fetch("/api/content")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data || !data.items) return;
+        var byHtml = {};
+        var byVal = {};
+        data.items.forEach(function (it) {
+          byHtml[it.key] = it.html;
+          byVal[it.key] = it.value;
+        });
+
+        if (byVal["meta.title"]) document.title = byVal["meta.title"];
+        var metaDesc = document.querySelector('meta[name="description"]');
+        if (byVal["meta.description"] && metaDesc) metaDesc.setAttribute("content", byVal["meta.description"]);
+        if (byVal["contatti.email"]) EMAIL = byVal["contatti.email"];
+
+        var nodes = document.querySelectorAll("[data-content]");
+        Array.prototype.forEach.call(nodes, function (node) {
+          var key = node.getAttribute("data-content");
+          var html = byHtml[key];
+          if (typeof html !== "string" || html === "") return;
+          if (node.hasAttribute("data-count")) {
+            var n = parseInt(String(byVal[key] == null ? "" : byVal[key]).replace(/[^\d-]/g, ""), 10);
+            if (!isNaN(n)) node.setAttribute("data-count", String(n));
+          }
+          node.innerHTML = html;
+          if (node.tagName === "A") {
+            var href = node.getAttribute("href") || "";
+            if (href.indexOf("mailto:") === 0) {
+              node.setAttribute(
+                "href",
+                "mailto:" + EMAIL + (href.indexOf("?") !== -1 ? href.slice(href.indexOf("?")) : "")
+              );
+            }
+          }
+        });
+      })
+      .catch(function () {
+        /* Backend assente o DB non raggiungibile: restano i testi statici */
+      });
+  }
+  applyContent();
+
   /* ---------- Header: stato scroll ---------- */
   var header = document.getElementById("header");
   function onScrollHeader() {
