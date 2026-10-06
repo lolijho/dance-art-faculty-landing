@@ -137,7 +137,8 @@ app.put("/api/content", requireAdmin, async (req, res) => {
   } catch (err) {
     console.error("[content] salvataggio fallito:", err.code || "", err.message);
     const hint = dbHint(err);
-    res.status(503).json({ error: hint ? `Database non disponibile — ${hint}` : "Database non disponibile, riprova." });
+    if (hint) return res.status(503).json({ error: `Database non disponibile — ${hint}` });
+    return res.status(500).json({ error: "Errore interno durante il salvataggio (dettaglio nei log del server)." });
   }
 });
 

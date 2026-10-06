@@ -32,8 +32,9 @@ async function getOverrides() {
 
 async function saveOverrides(entries) {
   const s = getSql();
-  await s`INSERT INTO content (key, value)
-          ${s(entries, "key", "value")}
+  /* il helper ${s(entries, "key", "value")} genera già la lista colonne:
+     aggiungerle anche dopo "content" produce un errore di sintassi 42601 */
+  await s`INSERT INTO content ${s(entries, "key", "value")}
           ON CONFLICT (key) DO UPDATE
           SET value = EXCLUDED.value, updated_at = now()`;
 }
