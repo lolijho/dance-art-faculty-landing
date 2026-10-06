@@ -11,10 +11,10 @@ const PAIRS = [
   // ===== Ticker (due sequenze identiche) =====
   {
     find: `        <span>Open Day 14 novembre 2026</span><i></i><span>ore 11:00</span><i></i>
-        <span>Prova di ammissione 30 novembre</span><i></i><span>Open Day 19 dicembre 2026</span><i></i>
+        <span>Prova di ammissione 30 gennaio</span><i></i><span>Open Day 19 dicembre 2026</span><i></i>
         <span>Roma · Via di Pietralata 159A</span><i></i>`,
     replace: `        <span data-content="ticker.1">Open Day 14 novembre 2026</span><i></i><span data-content="ticker.2">ore 11:00</span><i></i>
-        <span data-content="ticker.3">Prova di ammissione 30 novembre</span><i></i><span data-content="ticker.4">Open Day 19 dicembre 2026</span><i></i>
+        <span data-content="ticker.3">Prova di ammissione 30 gennaio</span><i></i><span data-content="ticker.4">Open Day 19 dicembre 2026</span><i></i>
         <span data-content="ticker.5">Roma · Via di Pietralata 159A</span><i></i>`,
     count: 2,
   },
@@ -48,7 +48,7 @@ const PAIRS = [
   },
   { find: `<li>14 novembre 2026</li>`, replace: `<li data-content="hero.meta1">14 novembre 2026</li>` },
   { find: `<li>19 dicembre 2026</li>`, replace: `<li data-content="hero.meta2">19 dicembre 2026</li>` },
-  { find: `<li>30 novembre — <strong>Prova di ammissione</strong></li>`, replace: `<li data-content="hero.meta3">30 novembre — <strong>Prova di ammissione</strong></li>` },
+  { find: `<li>30 gennaio — <strong>Prova di ammissione</strong></li>`, replace: `<li data-content="hero.meta3">30 gennaio — <strong>Prova di ammissione</strong></li>` },
   { find: `<li>Ore 11:00</li>`, replace: `<li data-content="hero.meta4">Ore 11:00</li>` },
 
   // ===== Breadcrumb =====
@@ -113,21 +113,21 @@ const PAIRS = [
   {
     find: `              <span class="ticket__tag">Open day + ammissione</span>
               <p class="ticket__day">30</p>
-              <p class="ticket__month">novembre 2026</p>`,
+              <p class="ticket__month">gennaio 2026</p>`,
     replace: `              <span class="ticket__tag" data-content="date3.tag">Open day + ammissione</span>
               <p class="ticket__day" data-content="date3.day">30</p>
-              <p class="ticket__month" data-content="date3.month">novembre 2026</p>`,
+              <p class="ticket__month" data-content="date3.month">gennaio 2026</p>`,
   },
   {
     find: `<div class="ticket__body">
               <p class="ticket__hour">ore 11:00</p>
               <p class="ticket__desc">Oltre alla visita e alle simulazioni, puoi affrontare subito la <strong>prova di ammissione</strong> per l'a.s. 2026/27.</p>
-              <button class="ticket__cta" type="button" data-date-slot="3011" data-date-label="lunedì 30 novembre 2026">Prenota questa data</button>
+              <button class="ticket__cta" type="button" data-date-slot="3001" data-date-label="venerdì 30 gennaio 2026">Prenota questa data</button>
             </div>`,
     replace: `<div class="ticket__body">
               <p class="ticket__hour" data-content="date3.hour">ore 11:00</p>
               <p class="ticket__desc" data-content="date3.desc">Oltre alla visita e alle simulazioni, puoi affrontare subito la <strong>prova di ammissione</strong> per l'a.s. 2026/27.</p>
-              <button class="ticket__cta" type="button" data-date-slot="3011" data-date-label="lunedì 30 novembre 2026" data-content="date3.cta">Prenota questa data</button>
+              <button class="ticket__cta" type="button" data-date-slot="3001" data-date-label="venerdì 30 gennaio 2026" data-content="date3.cta">Prenota questa data</button>
             </div>`,
   },
   {

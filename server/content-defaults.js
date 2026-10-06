@@ -11,7 +11,7 @@ const SECTIONS = [
     label: "Pagina (titolo e descrizione)",
     keys: [
       { key: "meta.title", label: "Titolo pagina (tab browser / Google)", def: "Open Day Liceo Coreutico DAF 2026/27 — Prenota il tuo posto | Dance Arts Faculty" },
-      { key: "meta.description", label: "Descrizione pagina (snippet Google)", def: "Open Day conoscitivi con simulazioni didattiche il 14 novembre e il 19 dicembre 2026, Open Day con Prova di Ammissione il 30 novembre, ore 11:00. Liceo Coreutico DAF, scuola paritaria a Roma — Via di Pietralata 159A. Prenota il tuo posto." },
+      { key: "meta.description", label: "Descrizione pagina (snippet Google)", def: "Open Day conoscitivi con simulazioni didattiche il 14 novembre e il 19 dicembre 2026, Open Day con Prova di Ammissione il 30 gennaio, ore 11:00. Liceo Coreutico DAF, scuola paritaria a Roma — Via di Pietralata 159A. Prenota il tuo posto." },
     ],
   },
   {
@@ -27,7 +27,7 @@ const SECTIONS = [
     keys: [
       { key: "ticker.1", label: "Frase 1", def: "Open Day 14 novembre 2026" },
       { key: "ticker.2", label: "Frase 2", def: "ore 11:00" },
-      { key: "ticker.3", label: "Frase 3", def: "Prova di ammissione 30 novembre" },
+      { key: "ticker.3", label: "Frase 3", def: "Prova di ammissione 30 gennaio" },
       { key: "ticker.4", label: "Frase 4", def: "Open Day 19 dicembre 2026" },
       { key: "ticker.5", label: "Frase 5", def: "Roma · Via di Pietralata 159A" },
     ],
@@ -51,7 +51,7 @@ const SECTIONS = [
       { key: "hero.cta2", label: "Bottone 2", def: "Le date" },
       { key: "hero.meta1", label: "Info 1", def: "14 novembre 2026" },
       { key: "hero.meta2", label: "Info 2", def: "19 dicembre 2026" },
-      { key: "hero.meta3", label: "Info 3", def: "30 novembre — <strong>Prova di ammissione</strong>" },
+      { key: "hero.meta3", label: "Info 3", def: "30 gennaio — <strong>Prova di ammissione</strong>" },
       { key: "hero.meta4", label: "Info 4", def: "Ore 11:00" },
     ],
   },
@@ -68,7 +68,7 @@ const SECTIONS = [
     keys: [
       { key: "date.label", label: "Etichetta sezione", def: "Le date" },
       { key: "date.title", label: "Titolo sezione", def: "Prenota il tuo posto" },
-      { key: "date.intro", label: "Introduzione", def: "<strong>Open day conoscitivi con simulazioni didattiche</strong> — 14 novembre e 19 dicembre 2026, ore 11:00.<br /><strong>Open day e Prova di Ammissione a.s. 2026/27</strong> — 30 novembre 2026, ore 11:00." },
+      { key: "date.intro", label: "Introduzione", def: "<strong>Open day conoscitivi con simulazioni didattiche</strong> — 14 novembre e 19 dicembre 2026, ore 11:00.<br /><strong>Open day e Prova di Ammissione a.s. 2026/27</strong> — 30 gennaio 2026, ore 11:00." },
       { key: "date1.tag", label: "Card 1 — etichetta", def: "Open day conoscitivo" },
       { key: "date1.day", label: "Card 1 — giorno", def: "14" },
       { key: "date1.month", label: "Card 1 — mese", def: "novembre 2026" },
@@ -83,7 +83,7 @@ const SECTIONS = [
       { key: "date2.cta", label: "Card 2 — bottone", def: "Prenota questa data" },
       { key: "date3.tag", label: "Card 3 — etichetta", def: "Open day + ammissione" },
       { key: "date3.day", label: "Card 3 — giorno", def: "30" },
-      { key: "date3.month", label: "Card 3 — mese", def: "novembre 2026" },
+      { key: "date3.month", label: "Card 3 — mese", def: "gennaio 2026" },
       { key: "date3.hour", label: "Card 3 — ora", def: "ore 11:00" },
       { key: "date3.desc", label: "Card 3 — descrizione", def: "Oltre alla visita e alle simulazioni, puoi affrontare subito la <strong>prova di ammissione</strong> per l'a.s. 2026/27." },
       { key: "date3.cta", label: "Card 3 — bottone", def: "Prenota questa data" },
