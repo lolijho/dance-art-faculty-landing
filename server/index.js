@@ -89,7 +89,8 @@ app.get("/api/content", async (req, res) => {
     console.error("[content] lettura DB fallita, uso i default:", err.message);
   }
   const items = Object.keys(DEFAULTS).map((key) => {
-    const src = overrides[key] != null ? overrides[key] : DEFAULTS[key];
+    const overridden = Object.prototype.hasOwnProperty.call(overrides, key);
+    const src = overridden ? overrides[key] : DEFAULTS[key];
     return {
       key,
       label: META[key].label,
@@ -98,6 +99,7 @@ app.get("/api/content", async (req, res) => {
       def: DEFAULTS[key],
       value: src,
       html: renderValue(META[key], src),
+      overridden,
     };
   });
   res.set("Cache-Control", "no-store").json({ items });

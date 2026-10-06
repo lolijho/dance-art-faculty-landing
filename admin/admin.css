@@ -118,6 +118,18 @@ body {
 /* ---------- Editor ---------- */
 .status { margin: 0 2px 14px; color: var(--muted); font-size: 13px; }
 
+.builder-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-color: rgba(237, 99, 109, 0.35);
+  background: linear-gradient(0deg, rgba(237, 99, 109, 0.06), rgba(237, 99, 109, 0.06)), var(--card);
+}
+.builder-card__text { display: grid; gap: 2px; }
+.builder-card__text strong { font-size: 14.5px; color: var(--red-deep); }
+.builder-card__text span { color: var(--muted); font-size: 13px; }
+
 .card h2 {
   margin: 0 0 4px;
   font-size: 12px;
@@ -219,5 +231,6 @@ textarea.changed { border-color: rgba(237, 99, 109, 0.55); background: #fff; }
   .wrap { padding: 18px 14px 140px; }
   .card { padding: 16px; }
   .field__head { flex-wrap: wrap; }
+  .builder-card { flex-direction: column; align-items: flex-start; }
   .savebar { left: 16px; right: 16px; transform: none; justify-content: space-between; }
 }

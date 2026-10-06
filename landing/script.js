@@ -11,50 +11,89 @@
     document.documentElement.classList.add("static");
   }
 
-  /* ---------- Testi editabili dal backend (fallback: HTML statico) ---------- */
+  /* ---------- Contenuti dal backend (fallback: HTML statico) ---------- */
+
+  /* Applica gli item di /api/content alla pagina: usata al load e dal page builder */
+  function applyContentItems(items) {
+    var byHtml = {};
+    var byVal = {};
+    items.forEach(function (it) {
+      byHtml[it.key] = it.html;
+      byVal[it.key] = it.value;
+    });
+
+    if (byVal["meta.title"]) document.title = byVal["meta.title"];
+    var metaDesc = document.querySelector('meta[name="description"]');
+    if (byVal["meta.description"] && metaDesc) metaDesc.setAttribute("content", byVal["meta.description"]);
+    if (byVal["contatti.email"]) EMAIL = byVal["contatti.email"];
+
+    var nodes = document.querySelectorAll("[data-content]");
+    Array.prototype.forEach.call(nodes, function (node) {
+      var key = node.getAttribute("data-content");
+      var html = byHtml[key];
+      if (typeof html !== "string") return;
+      if (node.hasAttribute("data-count")) {
+        var n = parseInt(String(byVal[key] == null ? "" : byVal[key]).replace(/[^\d-]/g, ""), 10);
+        if (!isNaN(n)) node.setAttribute("data-count", String(n));
+      }
+      node.innerHTML = html;
+      if (node.tagName === "A") {
+        var href = node.getAttribute("href") || "";
+        if (href.indexOf("mailto:") === 0) {
+          node.setAttribute(
+            "href",
+            "mailto:" + EMAIL + (href.indexOf("?") !== -1 ? href.slice(href.indexOf("?")) : "")
+          );
+        }
+      }
+    });
+  }
+
   function applyContent() {
     fetch("/api/content")
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
         if (!data || !data.items) return;
-        var byHtml = {};
-        var byVal = {};
-        data.items.forEach(function (it) {
-          byHtml[it.key] = it.html;
-          byVal[it.key] = it.value;
-        });
-
-        if (byVal["meta.title"]) document.title = byVal["meta.title"];
-        var metaDesc = document.querySelector('meta[name="description"]');
-        if (byVal["meta.description"] && metaDesc) metaDesc.setAttribute("content", byVal["meta.description"]);
-        if (byVal["contatti.email"]) EMAIL = byVal["contatti.email"];
-
-        var nodes = document.querySelectorAll("[data-content]");
-        Array.prototype.forEach.call(nodes, function (node) {
-          var key = node.getAttribute("data-content");
-          var html = byHtml[key];
-          if (typeof html !== "string" || html === "") return;
-          if (node.hasAttribute("data-count")) {
-            var n = parseInt(String(byVal[key] == null ? "" : byVal[key]).replace(/[^\d-]/g, ""), 10);
-            if (!isNaN(n)) node.setAttribute("data-count", String(n));
-          }
-          node.innerHTML = html;
-          if (node.tagName === "A") {
-            var href = node.getAttribute("href") || "";
-            if (href.indexOf("mailto:") === 0) {
-              node.setAttribute(
-                "href",
-                "mailto:" + EMAIL + (href.indexOf("?") !== -1 ? href.slice(href.indexOf("?")) : "")
-              );
-            }
-          }
-        });
+        applyContentItems(data.items);
       })
       .catch(function () {
         /* Backend assente o DB non raggiungibile: restano i testi statici */
       });
   }
   applyContent();
+  window.__dafApplyContent = applyContentItems;
+
+  /* ---------- Page builder: disponibile solo se l'admin è in sessione ---------- */
+  function injectAsset(kind, src) {
+    var el;
+    if (kind === "link") {
+      el = document.createElement("link");
+      el.rel = "stylesheet";
+      el.href = src;
+      document.head.appendChild(el);
+    } else {
+      el = document.createElement("script");
+      el.src = src;
+      el.defer = true;
+      document.head.appendChild(el);
+    }
+  }
+
+  function bootstrapEditor() {
+    var wantsEdit = window.location.search.indexOf("edit=1") !== -1;
+    fetch("/api/me")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (me) {
+        if (me && me.authed) {
+          injectAsset("link", "editor.css");
+          injectAsset("script", "editor.js");
+        } else if (wantsEdit) {
+          window.location.replace("/admin");
+        }
+      })
+      .catch(function () {});
+  }
+  bootstrapEditor();
 
   /* ---------- Header: stato scroll ---------- */
   var header = document.getElementById("header");

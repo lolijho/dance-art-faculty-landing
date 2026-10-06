@@ -25,10 +25,15 @@ scripts/
 - Ogni testo editabile in `landing/index.html` ha `data-content="chiave"`.
 - Al load, `script.js` chiama `GET /api/content` e sostituisce i contenuti;
   se il backend non risponde restano i testi statici (default del codice).
+- **Page builder**: da `/admin` (o diretti su `/?edit=1`) si modificano i testi
+  direttamente in pagina — clicchi il testo, scrivi, premi **Salva** nella barra
+  in basso (o Cmd/Ctrl+S). I valori ripetuti in pagina (ticker, email) si
+  aggiornano insieme; "Termina" esce dalla modalità modifica.
+- L'elenco completo dei testi resta su `/admin`: utile per `meta.title`,
+  `meta.description` (non visibili in pagina) e per il reset al default campo per campo.
 - I valori modificati sono nella tabella `content` (key/value) e **sovrascrivono**
-  i default; ripristinare un testo uguale al default lo cancella dal DB.
-- `meta.title`, `meta.description` e l'email della segreteria (usata in tutto il
-  sito e nel form mailto) sono gestite in modo speciale.
+  i default; l'API marca ogni item con `overridden` così anche un testo
+  svuotato viene applicato invece di ricadere sul default.
 
 Per aggiungere nuovi testi editabili: aggiungi la chiave in
 `server/content-defaults.js` + un `data-content="..."` nell'HTML, poi esegui
