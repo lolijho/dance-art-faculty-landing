@@ -38,4 +38,11 @@ async function saveOverrides(entries) {
           SET value = EXCLUDED.value, updated_at = now()`;
 }
 
-module.exports = { getSql, ensureSchema, getOverrides, saveOverrides };
+/* Diagnostica: a quale database siamo davvero connessi */
+async function pingInfo() {
+  const s = getSql();
+  const rows = await s`SELECT current_database() AS db, current_user AS usr`;
+  return rows[0];
+}
+
+module.exports = { getSql, ensureSchema, getOverrides, saveOverrides, pingInfo };

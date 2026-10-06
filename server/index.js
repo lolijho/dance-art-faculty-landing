@@ -7,6 +7,19 @@ const db = require("./db");
 const auth = require("./auth");
 const { DEFAULTS, META, sanitizeValue, renderValue } = require("./content");
 
+/* Suggerimenti pratici per gli errori Postgres più comuni: vengono loggati
+   all'avvio e mostrati all'admin quando il salvataggio fallisce */
+const DB_HINTS = {
+  "3D000": 'il database nell\'URL non esiste: il nome dopo "/" in DATABASE_URL deve corrispondere a POSTGRES_DB del servizio Postgres (default: "postgres")',
+  "28P01": "password errata: usa POSTGRES_PASSWORD del servizio (caratteri speciali come @ : / % vanno codificati nell'URL)",
+  ECONNREFUSED: "host o porta sbagliati: usa il nome del servizio Postgres sulla stessa rete e la porta interna 5432",
+  ENOTFOUND: "hostname non risolto: usa il nome del servizio Postgres nello stesso progetto (non localhost né l'IP pubblico)",
+  EAI_AGAIN: "DNS temporaneamente non disponibile: riprova; se persiste controlla il nome del servizio",
+};
+function dbHint(err) {
+  return DB_HINTS[err && (err.code || "")];
+}
+
 const PORT = Number(process.env.PORT || 3000);
 const ROOT = path.join(__dirname, "..");
 
@@ -122,8 +135,9 @@ app.put("/api/content", requireAdmin, async (req, res) => {
     await db.saveOverrides(clean);
     res.json({ ok: true, saved: clean.length });
   } catch (err) {
-    console.error("[content] salvataggio fallito:", err.message);
-    res.status(503).json({ error: "Database non disponibile, riprova." });
+    console.error("[content] salvataggio fallito:", err.code || "", err.message);
+    const hint = dbHint(err);
+    res.status(503).json({ error: hint ? `Database non disponibile — ${hint}` : "Database non disponibile, riprova." });
   }
 });
 
@@ -176,10 +190,14 @@ async function waitForDb() {
   for (let i = 1; i <= 30; i++) {
     try {
       await db.ensureSchema();
-      console.log("[db] schema pronto.");
+      const info = await db.pingInfo();
+      console.log(`[db] schema pronto: database "${info.db}", utente "${info.usr}".`);
       return;
     } catch (err) {
-      console.warn(`[db] attesa Postgres (${i}/30): ${err.message}`);
+      const hint = dbHint(err);
+      console.warn(
+        `[db] attesa Postgres (${i}/30): ${err.code || ""} ${err.message}${hint ? " — " + hint : ""}`
+      );
       await new Promise((r) => setTimeout(r, 1000));
     }
   }
