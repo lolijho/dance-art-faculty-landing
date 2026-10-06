@@ -2,4 +2,5 @@
 asset-originali/
 *.log
 node_modules/
-.env.sciamy/
+.env
+.sciamy/
